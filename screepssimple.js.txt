@@ -1,0 +1,35 @@
+module.exports.loop = function ()
+{
+    // This is the main game loop. The code inside of these curly brackets will run once per tick.
+     //var controller = mycreep.room.controller;
+    
+    // if our creep doesn't exist, create it from our spawn
+    Game.spawns["Spawn1"].spawnCreep([WORK,CARRY,MOVE,MOVE], "My First Creep");
+
+    var mycreep = Game.creeps["My First Creep"];
+    
+   if(mycreep.pos.inRangeTo(mycreep.room.controller, 3) && mycreep.store[RESOURCE_ENERGY] > 0)
+   {
+        mycreep.upgradeController(mycreep.room.controller);
+        var canUpgradeController = true;
+   }
+   else
+   {
+       var canUpgradeController = false;
+   }
+
+    if (canUpgradeController == false) 
+    {
+                                        //object ID of nearest energy source
+        var source = Game.getObjectById('a8cd315514010a3ed449ab61');
+        mycreep.moveTo(source);
+        mycreep.harvest(source);
+    }
+    
+    if (mycreep.store[RESOURCE_ENERGY] == 50)     
+    {
+        var controller = mycreep.room.controller;
+        mycreep.moveTo(controller);
+    }
+
+}
